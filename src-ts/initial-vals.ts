@@ -27,9 +27,12 @@ export class FileBacked {
     private obj: any;
     private loaded: boolean;
 
-    private static xdgConfigDir = process.env.XDG_CONFIG_DIR;
-    public static configDir = FileBacked.xdgConfigDir ??
-        path.join(os.homedir(), ".config/dispatch");
+    public static configDir: string
+    static {
+        const configHome = process.env.XDG_CONFIG_HOME ??
+            path.join(os.homedir(), ".config");
+        FileBacked.configDir = path.join(configHome, "dispatch");
+    }
 
     private async ensureConfigDirExists() {
         try {
